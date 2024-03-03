@@ -1,0 +1,37 @@
+body {
+    background-color: #87CEEB; /* светло-голубой цвет в качестве фона, напоминающий воду */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff; /* белый цвет контейнера */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* тень для эффекта поднятости */
+  }
+  
+  input[type="file"] {
+    margin-bottom: 20px;
+  }
+  
+  button {
+    background-color: #4CAF50; /* зеленый цвет для кнопки загрузки */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* темнее зеленый при наведении */
+  }
+  
+  p {
+    color: #008080; /* темно-бирюзовый цвет для сообщения об успешной загрузке */
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
