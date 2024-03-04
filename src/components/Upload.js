@@ -1,43 +1,51 @@
 import React, { useState } from 'react';
 import "../styles/Upload.css"
+import axios from 'axios';
+
+const ImageDisplayComponent = ({ imageUrl }) => {
+  return (
+    <div>
+      <h2>Current Image</h2>
+      <img src={imageUrl} alt="Rotated Image" />
+    </div>
+  );
+};
 
 const FileUploadComponent = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFiles([...selectedFiles, ...event.target.files]);
-  };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append('rotation_angle', 180);
 
-  const handleUpload = () => {
-    if (selectedFiles.length > 0) {
-      const formData = new FormData();
-      selectedFiles.forEach((file, index) => {
-        formData.append(`file${index + 1}`, file);
+    try {
+      const response = await axios.post("http://10.66.66.7:5050/upload_image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      fetch('/upload', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Files uploaded successfully:', data);
-          setIsFileUploaded(true);
-        })
-        .catch((error) => {
-          console.error('Error uploading files:', error);
-        });
-    } else {
-      console.error('No files selected');
+      console.log("Success:", response.data);
+      setImageUrl(response.data.url);
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} multiple />
-      <button onClick={handleUpload}>Upload</button>
-      {isFileUploaded && <p>Files uploaded successfully!</p>}
+      <form onSubmit={onSubmit}>
+        <h1>Зона тестов</h1>
+        <input
+          accept="image/*"
+          name="customFile"
+          type="file"
+        />
+        <button type="submit">Сохранить и закрыть</button>
+      </form>
+
+      {imageUrl && <ImageDisplayComponent imageUrl={imageUrl} />}
     </div>
   );
 };
